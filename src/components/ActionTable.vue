@@ -42,19 +42,19 @@ export default {
       console.log(cellValue);
       const { servo0, servo1, servo2, servo3, servo4 } = row;
       var result = '';
-      if (servo0) {
+      if (typeof servo0 != 'undefined') {
         result += `舵机 0: ${servo0}° ,`;
       }
-      if (servo1) {
+      if (typeof servo1 != 'undefined') {
         result += `舵机 1: ${servo1}° ,`;
       }
-      if (servo2) {
+      if (typeof servo2 != 'undefined') {
         result += `舵机 2: ${servo2}° ,`;
       }
-      if (servo3) {
+      if (typeof servo3 != 'undefined') {
         result += `舵机 3: ${servo3}° ,`;
       }
-      if (servo4) {
+      if (typeof servo4 != 'undefined') {
         result += `舵机 4: ${servo4}° ,`;
       }
       if (result === '') {
