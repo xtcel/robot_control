@@ -1,10 +1,14 @@
 <template>
   <div id="app">
     <div className="container">
-      <control-panel @add-action="addAction" />
+      <el-card >
+        <control-panel @add-action="addAction" />
+      </el-card>
       <div style="width: 10px;" />
+      <el-card >
       <action-table :actions="actions" :loading="loading" @execute-action="executeAction" @remove-action="removeAction"
         @execute-all="executeAll" @drag-end="onDragEnd" />
+    </el-card>
     </div>
   </div>
 </template>
