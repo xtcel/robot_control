@@ -30,6 +30,9 @@ export default {
   },
   methods: {
     addAction(action) {
+      // 将 index 作为默认名称
+      action.name = `动作 ${this.actions.length + 1}`;
+      console.log(`添加动作 action: ${action}`);
       this.actions.push(action);
     },
     executeAction(index) {

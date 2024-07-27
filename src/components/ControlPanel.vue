@@ -111,6 +111,7 @@ export default {
       speed: 1,
       interval: 0.02,
       commandPreview: '',
+      command: {},
       servo0On: true,
       servo1On: true,
       servo2On: true,
@@ -158,7 +159,7 @@ export default {
     },
     updateCommandPreview() {
       const command = {
-        
+        name: "",
         speed: this.getSpeedString(this.speed),
         interval: this.interval
       };
@@ -177,7 +178,8 @@ export default {
       }
 
       if (this.servo2On) {
-        command.servo2 = this.leftArm;
+        let realLeftArmValue = 140 - this.leftArm;
+        command.servo2 = realLeftArmValue;
       }
 
       if (this.servo3On) {
@@ -189,9 +191,10 @@ export default {
       }
 
       this.commandPreview = JSON.stringify(command);
+      this.command = command;
     },
     addAction() {
-      this.$emit('add-action', JSON.parse(this.commandPreview));
+      this.$emit('add-action', this.command); // JSON.parse(this.commandPreview)
     },
     reverseShowValue(value) {
       let newValue = 140 - value;
@@ -204,6 +207,7 @@ export default {
       this.leftArm = 140;
       this.rightArm = 0;
       this.bodyRotation = 60;
+      this.updateCommandPreview();
     }
   },
   mounted() {

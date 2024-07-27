@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-table :data="actions" style="width: 700px" @row-drag-end="onDragEnd" row-key="index" v-loading="loading"
-      :sortable="true" border>
-      <el-table-column type="index" label="序号/名称" width="80px"></el-table-column>
+      :sortable="true" stripe border>
+      <el-table-column prop="name" edit label="序号/名称" width="80px"></el-table-column>
       <el-table-column prop="command" label="动作组" :formatter="fmtCommand" min-width="180px"></el-table-column>
       <el-table-column prop="speed" label="舵机速度"></el-table-column>
       <el-table-column prop="interval" label="时延"></el-table-column>
@@ -38,8 +38,6 @@ export default {
     fmtCommand(row, column, cellValue, index) {
       console.log(index);
       console.log(row);
-      console.log(column);
-      console.log(cellValue);
       const { servo0, servo1, servo2, servo3, servo4 } = row;
       var result = '';
       if (typeof servo0 != 'undefined') {
