@@ -194,7 +194,7 @@ export default {
       this.command = command;
     },
     addAction() {
-      this.$emit('add-action', this.command); // JSON.parse(this.commandPreview)
+      this.$emit('add-action', JSON.parse(this.commandPreview));
     },
     reverseShowValue(value) {
       let newValue = 140 - value;
