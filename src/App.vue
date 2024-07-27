@@ -7,7 +7,7 @@
       <div style="width: 10px;" />
       <el-card >
       <action-table :actions="actions" :loading="loading" @execute-action="executeAction" @remove-action="removeAction"
-        @execute-all="executeAll" @drag-end="onDragEnd" />
+        @execute-all="executeAll" @drag-end="onDragEnd" @save-datas="saveDatas" @update-action-name="updateActionName" />
     </el-card>
     </div>
   </div>
@@ -41,6 +41,23 @@ export default {
     },
     removeAction(index) {
       this.actions.splice(index, 1);
+    },
+    updateActionName({index, name}) {
+      console.log('updateActionName: ', index, name);
+      this.actions[index].name = name;
+    },
+    saveDatas() {
+      console.log('保存脚本');
+      console.log('actions: ', this.actions);
+      console.log('actions: ', JSON.stringify(this.actions));
+      /// 将数据保存为 json 文件
+      const blob = new Blob([JSON.stringify(this.actions)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'actions.json';
+      link.click();
+      URL.revokeObjectURL(url);
     },
     executeAll() {
       this.loading = true;

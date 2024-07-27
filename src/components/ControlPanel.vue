@@ -75,11 +75,11 @@
         <div class="item" >
           <el-text style="padding-right: 10px;">速度</el-text>
           <el-select v-model="speed" @change="updateCommandPreview" style="width: 80px">
-            <el-option :label="慢" :value="1">慢 1</el-option>
-            <el-option :label="中" :value="3">中 3</el-option>
-            <el-option :label="快" :value="6">快 6</el-option>
-            <el-option :label="较快" :value="8">较快 8</el-option>
-            <el-option :label="很快" :value="10">很快 10</el-option>
+            <el-option :label="慢" :value="1">慢</el-option>
+            <el-option :label="中" :value="3">中</el-option>
+            <el-option :label="快" :value="6">快</el-option>
+            <el-option :label="较快" :value="8">较快</el-option>
+            <el-option :label="很快" :value="10">很快</el-option>
           </el-select>
           <el-text style="padding-right:10px; padding-left:30px; ">时延</el-text>
           <el-input-number v-model="interval" :min="0.02" :max="0.1" :step="0.02"
@@ -93,7 +93,7 @@
       <el-form-item label="指令预览">
         <el-input type="textarea" :value="commandPreview" readonly></el-input>
       </el-form-item>
-      <el-button type="primary" @click="onReset">舵机复位</el-button>
+      <el-button type="primary" @click="onReset">复位</el-button>
       <el-button type="primary" @click="addAction">加入动作</el-button>
     </el-form>
   </div>
@@ -105,7 +105,7 @@ export default {
     return {
       headUpDown: 40,
       headLeftRight: 60,
-      leftArm: 140,
+      leftArm: 0, // 140 - value
       rightArm: 0,
       bodyRotation: 60,
       speed: 1,
@@ -163,11 +163,6 @@ export default {
         speed: this.getSpeedString(this.speed),
         interval: this.interval
       };
-      // servo_0: this.headUpDown,
-      //   servo_1: this.headLeftRight,
-      //   servo_2: this.leftArm,
-      //   servo_3: this.rightArm,
-      //   servo_4: this.bodyRotation,
 
       if (this.servo0On) {
         command.servo0 = this.headUpDown;

@@ -11,6 +11,9 @@ dependencies:
   element-plus:
     specifier: ^2.7.7
     version: 2.7.7(vue@3.4.34)
+  ry-edit-table:
+    specifier: ^1.0.8
+    version: 1.0.8(element-plus@2.7.7)(vue@3.4.34)
   vue:
     specifier: ^3.2.13
     version: 3.4.34
@@ -6183,6 +6186,16 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
     dev: true
+
+  /ry-edit-table@1.0.8(element-plus@2.7.7)(vue@3.4.34):
+    resolution: {integrity: sha512-C6AUDspDxc+ZxhFTFXBPraP81lgEEvuni6N4FpVGcFEhN4zPaHtFHWcf/clsWAR750Z6NBlHzMyWIdvdMiTaWg==}
+    peerDependencies:
+      element-plus: ^2.3.4
+      vue: ^3.2.47
+    dependencies:
+      element-plus: 2.7.7(vue@3.4.34)
+      vue: 3.4.34
+    dev: false
 
   /safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
