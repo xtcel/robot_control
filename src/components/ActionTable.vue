@@ -1,19 +1,13 @@
 <template>
   <div>
     <el-table :data="actions" style="width: 700px" @row-drag-end="onDragEnd" row-key="index" v-loading="loading"
-      :sortable="true" @cell-click="showUnitInput" stripe border >
+      :sortable="true" @cell-click="showUnitInput" stripe border>
       <el-table-column prop="name" edit label="序号/名称" width="80px">
-        <template #default="{ row, column, $index}">
-          <el-input
-            v-if="
-            tableRowEditId === $index  &&
-            tableColumnEditIndex === column.id
-            "
-            v-model="row.name"
-            @input="onInputChange"
-            @blur="blurValueInput(row, column)"
-            @keyup.enter="blurValueInput(row, column)"
-          />
+        <template #default="{ row, column, $index }">
+          <el-input v-if="tableRowEditId === $index &&
+      tableColumnEditIndex === column.id
+      " v-model="row.name" @input="onInputChange" @blur="blurValueInput(row, column)"
+            @keyup.enter="blurValueInput(row, column)" />
           <span v-else>{{ row.name }}</span>
         </template>
       </el-table-column>
@@ -88,7 +82,10 @@ export default {
     saveDatas() {
       this.$emit('save-datas');
     },
-    showUnitInput(row, column, cell, event ) {
+    onReset() {
+      this.$emit('reset');
+    },
+    showUnitInput(row, column, cell, event) {
       console.log('onClick : row', row)
       console.log("cell", cell);
       console.log("column", column);

@@ -1,14 +1,15 @@
 <template>
   <div id="app">
     <div className="container">
-      <el-card >
+      <el-card>
         <control-panel @add-action="addAction" />
       </el-card>
       <div style="width: 10px;" />
-      <el-card >
-      <action-table :actions="actions" :loading="loading" @execute-action="executeAction" @remove-action="removeAction"
-        @execute-all="executeAll" @drag-end="onDragEnd" @save-datas="saveDatas" @update-action-name="updateActionName" />
-    </el-card>
+      <el-card>
+        <action-table :actions="actions" :loading="loading" @execute-action="executeAction" @reset="onReset"
+          @remove-action="removeAction" @execute-all="executeAll" @drag-end="onDragEnd" @save-datas="saveDatas"
+          @update-action-name="updateActionName" />
+      </el-card>
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@
 <script>
 import ControlPanel from './components/ControlPanel.vue';
 import ActionTable from './components/ActionTable.vue';
+import axios from 'axios'
 
 export default {
   components: {
@@ -42,37 +44,73 @@ export default {
     removeAction(index) {
       this.actions.splice(index, 1);
     },
-    updateActionName({index, name}) {
+    updateActionName({ index, name }) {
       console.log('updateActionName: ', index, name);
       this.actions[index].name = name;
     },
+    onReset() {
+      axios.get('/api/index.php', {
+        params: {
+          action: 'reset',
+        },
+      }).then(response => {
+        console.log(response.data);
+      }).catch(error => {
+        console.error(error);
+      })
+    },
     saveDatas() {
       console.log('保存脚本');
-      console.log('actions: ', this.actions);
-      console.log('actions: ', JSON.stringify(this.actions));
-      /// 将数据保存为 json 文件
-      const blob = new Blob([JSON.stringify(this.actions)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'actions.json';
-      link.click();
-      URL.revokeObjectURL(url);
+      // 弹出输入名称的对话框
+      this.$prompt('请输入脚本名称', '提示', {
+        confirmButtonText: '确定',
+      }).then(({ value }) => {
+        console.log(value);
+        this.requestSave(value);
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      // console.log('actions: ', this.actions);
+      // console.log('actions: ', JSON.stringify(this.actions));
+      // /// 将数据保存为 json 文件
+      // const blob = new Blob([JSON.stringify(this.actions)], { type: 'application/json' });
+      // const url = URL.createObjectURL(blob);
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.download = 'actions.json';
+      // link.click();
+      // URL.revokeObjectURL(url);
+    },
+    async requestSave(name) {
+      // 发起网络请求，发送预览数据
+      axios.post('/api/index.php', {
+        params: {
+          action: 'save',
+          name: name
+        },
+        data: this.actions
+      }).then(response => {
+        console.log(response.data);
+      }).catch(error => {
+        console.error(error);
+      })
     },
     executeAll() {
-      this.loading = true;
-      let index = 0;
-      const executeNext = () => {
-        if (index < this.actions.length) {
-          this.sendCommand(this.actions[index]).then(() => {
-            index++;
-            executeNext();
-          });
-        } else {
-          this.loading = false;
-        }
-      };
-      executeNext();
+      // this.loading = true;
+      // 发起网络请求，发送预览数据
+      axios.post('/api/index.php', {
+        params: {
+          action: 'preview',
+        },
+        data: this.actions
+      })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     sendCommand(command) {
       return new Promise((resolve) => {
