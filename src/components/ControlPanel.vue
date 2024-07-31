@@ -5,7 +5,8 @@
         <div class="col">
           <div class="col">
             <div class="header-title">
-              <el-text style="padding-right: 10px;">舵机 0</el-text><el-switch v-model="servo0On" @change="onChangeSwitch"></el-switch>
+              <el-text style="padding-right: 10px;">舵机 0</el-text><el-switch v-model="servo0On"
+                @change="onChangeSwitch"></el-switch>
             </div>
             <div class="item">
               <el-text>低头</el-text>
@@ -15,7 +16,8 @@
             </div>
           </div>
           <div class="col">
-            <div class="header-title"><el-text style="padding-right: 10px;">舵机 1</el-text><el-switch v-model="servo1On" @change="onChangeSwitch"></el-switch></div>
+            <div class="header-title"><el-text style="padding-right: 10px;">舵机 1</el-text><el-switch v-model="servo1On"
+                @change="onChangeSwitch"></el-switch></div>
             <div class="item">
               <el-text>左看</el-text>
               <el-slider v-model="headLeftRight" :min="0" :max="120" :step="1" :marks="marks0_120"
@@ -60,7 +62,8 @@
 
         <div class="col">
           <div class="header-title">
-            <el-text style="padding-right: 10px;">舵机 4</el-text><el-switch v-model="servo4On" @change="onChangeSwitch"></el-switch>
+            <el-text style="padding-right: 10px;">舵机 4</el-text><el-switch v-model="servo4On"
+              @change="onChangeSwitch"></el-switch>
           </div>
           <div class="item">
             <el-text>左转</el-text>
@@ -72,7 +75,7 @@
       </el-form-item>
       <el-divider>其他选项</el-divider>
       <el-form-item label="">
-        <div class="item" >
+        <div class="item">
           <el-text style="padding-right: 10px;">速度</el-text>
           <el-select v-model="speed" @change="updateCommandPreview" style="width: 80px">
             <el-option :label="慢" :value="1">慢</el-option>
@@ -84,10 +87,10 @@
           <el-text style="padding-right:10px; padding-left:30px; ">时延</el-text>
           <el-input-number v-model="interval" :min="0.02" :max="0.1" :step="0.01"
             @change="updateCommandPreview"></el-input-number>
-        </div>  
+        </div>
       </el-form-item>
 
-      <el-form-item label="">  
+      <el-form-item label="">
       </el-form-item>
 
       <el-form-item label="指令预览">
@@ -203,7 +206,7 @@ export default {
       // 复位
       this.headUpDown = 40;
       this.headLeftRight = 60;
-      this.leftArm = 140;
+      this.leftArm = 0;
       this.rightArm = 0;
       this.bodyRotation = 60;
       this.updateCommandPreview();

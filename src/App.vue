@@ -10,6 +10,10 @@
           @remove-action="removeAction" @preview-action="onPreview" @drag-end="onDragEnd" @save-datas="saveDatas"
           @update-action-name="updateActionName" />
       </el-card>
+      <div style="width: 10px;" />
+      <el-card>
+        <RecordList />
+      </el-card>
     </div>
   </div>
 </template>
@@ -17,20 +21,24 @@
 <script>
 import ControlPanel from './components/ControlPanel.vue';
 import ActionTable from './components/ActionTable.vue';
+import RecordList from './components/RecordList.vue';
 import { httpGet, httpPost } from './utils/http.js';
 
 export default {
   components: {
     ControlPanel,
-    ActionTable
+    ActionTable,
+    RecordList
   },
   data() {
     return {
       actions: [],
+      records: [],
       loading: false
     };
   },
   methods: {
+
     addAction(action) {
       // 将 index 作为默认名称
       action.name = `动作 ${this.actions.length + 1}`;
@@ -39,7 +47,23 @@ export default {
     },
     executeAction(index) {
       const action = this.actions[index];
-      this.sendCommand(action);
+      console.log(`执行动作 action: ${action}`);
+      // http 请求执行单条动作
+      httpPost('/api/index.php', action, {
+        params: {
+          action: 'single_step'
+        }
+      }).then(response => {
+        console.log(response);
+        const { code, message } = response;
+        if (code != 0) {
+          this.$message.error(message);
+        } else {
+          this.$message.success(message);
+        }
+      }).catch(error => {
+        console.error(error);
+      })
     },
     removeAction(index) {
       this.actions.splice(index, 1);
@@ -108,7 +132,7 @@ export default {
     onPreview() {
       this.loading = true;
       // 发起网络请求，发送预览数据
-      httpPost('/api/index.php', this.actions,  {
+      httpPost('/api/index.php', this.actions, {
         params: {
           action: 'preview',
         },
@@ -129,14 +153,14 @@ export default {
           this.loading = false;
         });
     },
-    sendCommand(command) {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          console.log('发送命令:', command);
-          resolve();
-        }, 1000);
-      });
-    },
+    // sendCommand(command) {
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     console.log('发送命令:', command);
+    //     resolve();
+    //   }, 1000);
+    // });
+    // },
     onDragEnd({ newIndex, oldIndex }) {
       const movedItem = this.actions.splice(oldIndex, 1)[0];
       this.actions.splice(newIndex, 0, movedItem);
