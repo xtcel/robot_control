@@ -82,7 +82,7 @@
             <el-option :label="很快" :value="10">很快</el-option>
           </el-select>
           <el-text style="padding-right:10px; padding-left:30px; ">时延</el-text>
-          <el-input-number v-model="interval" :min="0.02" :max="0.1" :step="0.02"
+          <el-input-number v-model="interval" :min="0.02" :max="0.1" :step="0.01"
             @change="updateCommandPreview"></el-input-number>
         </div>  
       </el-form-item>
