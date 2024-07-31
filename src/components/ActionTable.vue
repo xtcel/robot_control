@@ -23,7 +23,7 @@
     </el-table>
     <div style="height: 20px;" />
     <el-button type="primary" @click="onReset">舵机复位</el-button>
-    <el-button type="primary" @click="executeAll">预览编排</el-button>
+    <el-button type="primary" @click="previewAction">预览编排</el-button>
     <el-button type="primary" @click="saveDatas">保存脚本</el-button>
   </div>
 </template>
@@ -73,8 +73,8 @@ export default {
     removeAction(index) {
       this.$emit('remove-action', index);
     },
-    executeAll() {
-      this.$emit('execute-all');
+    previewAction() {
+      this.$emit('preview-action');
     },
     onDragEnd(newIndex, oldIndex) {
       this.$emit('drag-end', { newIndex, oldIndex });

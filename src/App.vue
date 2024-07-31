@@ -7,7 +7,7 @@
       <div style="width: 10px;" />
       <el-card>
         <action-table :actions="actions" :loading="loading" @execute-action="executeAction" @reset="onReset"
-          @remove-action="removeAction" @execute-all="executeAll" @drag-end="onDragEnd" @save-datas="saveDatas"
+          @remove-action="removeAction" @preview-action="onPreview" @drag-end="onDragEnd" @save-datas="saveDatas"
           @update-action-name="updateActionName" />
       </el-card>
     </div>
@@ -17,7 +17,7 @@
 <script>
 import ControlPanel from './components/ControlPanel.vue';
 import ActionTable from './components/ActionTable.vue';
-import axios from 'axios'
+import { httpGet, httpPost } from './utils/http.js';
 
 export default {
   components: {
@@ -49,7 +49,7 @@ export default {
       this.actions[index].name = name;
     },
     onReset() {
-      axios.get('/api/index.php', {
+      httpGet('/api/index.php', {
         params: {
           action: 'reset',
         },
@@ -62,7 +62,7 @@ export default {
     saveDatas() {
       console.log('保存脚本');
       // 弹出输入名称的对话框
-      this.$prompt('请输入脚本名称', '提示', {
+      this.$prompt('请输入脚本名称', '', {
         confirmButtonText: '确定',
       }).then(({ value }) => {
         console.log(value);
@@ -84,32 +84,45 @@ export default {
     },
     async requestSave(name) {
       // 发起网络请求，发送预览数据
-      axios.post('/api/index.php', {
+      httpPost('/api/index.php', this.actions, {
         params: {
           action: 'save',
           name: name
-        },
-        data: this.actions
+        }
       }).then(response => {
-        console.log(response.data);
+        console.log(response);
+        const { code, message } = response;
+        if (code != 0) {
+          this.$message.error(message);
+        } else {
+          this.$message.success(message);
+        }
       }).catch(error => {
         console.error(error);
       })
     },
-    executeAll() {
-      // this.loading = true;
+    onPreview() {
+      this.loading = true;
       // 发起网络请求，发送预览数据
-      axios.post('/api/index.php', {
+      httpPost('/api/index.php', this.actions,  {
         params: {
           action: 'preview',
         },
-        data: this.actions
       })
         .then(response => {
-          console.log(response.data);
+          console.log(response);
+          const { code, message } = response;
+          if (code != 0) {
+            this.$message.error(message);
+          } else {
+            this.$message.success(message);
+          }
+          this.loading = false;
         })
         .catch(error => {
           console.error(error);
+          this.$message.error(error);
+          this.loading = false;
         });
     },
     sendCommand(command) {
