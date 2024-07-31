@@ -50,11 +50,15 @@ export default {
     },
     onReset() {
       httpGet('/api/index.php', {
-        params: {
-          action: 'reset',
-        },
+        action: 'reset',
       }).then(response => {
-        console.log(response.data);
+        console.log(response);
+        const { code, message } = response;
+        if (code != 0) {
+          this.$message.error(message);
+        } else {
+          this.$message.success(message);
+        }
       }).catch(error => {
         console.error(error);
       })
