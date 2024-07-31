@@ -5,7 +5,7 @@
         <div class="col">
           <div class="col">
             <div class="header-title">
-              <el-text style="padding-right: 10px;">舵机 0</el-text><el-switch v-model="servo0On"></el-switch>
+              <el-text style="padding-right: 10px;">舵机 0</el-text><el-switch v-model="servo0On" @change="onChangeSwitch"></el-switch>
             </div>
             <div class="item">
               <el-text>低头</el-text>
@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="col">
-            <div class="header-title"><el-text style="padding-right: 10px;">舵机 1</el-text><el-switch v-model="servo1On"></el-switch></div>
+            <div class="header-title"><el-text style="padding-right: 10px;">舵机 1</el-text><el-switch v-model="servo1On" @change="onChangeSwitch"></el-switch></div>
             <div class="item">
               <el-text>左看</el-text>
               <el-slider v-model="headLeftRight" :min="0" :max="120" :step="1" :marks="marks0_120"
@@ -31,7 +31,7 @@
           <div class="col">
 
             <div class="header-title">
-              <el-text>舵机 2（左手）</el-text><el-switch v-model="servo2On"></el-switch>
+              <el-text>舵机 2（左手）</el-text><el-switch v-model="servo2On" @change="onChangeSwitch"></el-switch>
             </div>
             <div class="item">
               <el-text>放下</el-text>
@@ -43,7 +43,7 @@
           </div>
           <div class="col">
             <div class="header-title">
-              <el-text>舵机 3（右手）</el-text><el-switch v-model="servo3On"></el-switch>
+              <el-text>舵机 3（右手）</el-text><el-switch v-model="servo3On" @change="onChangeSwitch"></el-switch>
             </div>
             <div class="item">
               <el-text>放下</el-text>
@@ -60,7 +60,7 @@
 
         <div class="col">
           <div class="header-title">
-            <el-text style="padding-right: 10px;">舵机 4</el-text><el-switch v-model="servo4On"></el-switch>
+            <el-text style="padding-right: 10px;">舵机 4</el-text><el-switch v-model="servo4On" @change="onChangeSwitch"></el-switch>
           </div>
           <div class="item">
             <el-text>左转</el-text>
@@ -194,6 +194,10 @@ export default {
     reverseShowValue(value) {
       let newValue = 140 - value;
       return newValue.toString();
+    },
+    onChangeSwitch(value) {
+      console.log(value);
+      this.updateCommandPreview();
     },
     onReset() {
       // 复位
