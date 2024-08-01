@@ -2,13 +2,15 @@
 
 <template>
   <div class="record-list">
-    <el-table :data="records" style="width: 100%" @cell-click="onCellClick" border stripe>
+    <el-table :data="records" style="width: 100%" @cell-click="onCellClick" @row-mouse-enter="handleMouseEnter"
+      @row-mouse-leave="handleMouseLeave" border stripe>
       <el-table-column prop="index" label="Index" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
+      <el-table-column prop="name" label="Name" width="180">
+        <template #default="{ row }">
+          <el-button link type="primary" size="small">{{ row.name }}</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <!-- <div class="record-item" v-for="(record, index) in records" :key="index">
-      <div class="name">{{ record }}</div>
-    </div> -->
   </div>
 </template>
 
@@ -58,9 +60,22 @@ export default {
       }).catch(error => {
         console.error(error);
       })
+    },
+    handleMouseEnter(row, column, event) {
+      console.log(row, column, event);
+      event.currentTarget.style.backgroundColor = '#f0f0f0'; // 设置鼠标悬停时的背景色
+    },
+    handleMouseLeave(row, column, event) {
+      console.log(row, column, event);
+
+      event.currentTarget.style.backgroundColor = ''; // 恢复原背景色
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-table .el-table__row:hover {
+  color: blueviolet;
+}
+</style>
